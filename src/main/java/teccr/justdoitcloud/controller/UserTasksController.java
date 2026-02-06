@@ -42,7 +42,7 @@ public class UserTasksController {
         log.info("Adding task: " + newTask);
         if (errors.hasErrors()) {
             return "usertasks";
-        };
+        }
 
         user.addTask(newTask);
         return "redirect:/user/tasks";

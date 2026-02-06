@@ -19,6 +19,5 @@ public class StringToLocalTimeConverter implements Converter<String, LocalDate> 
             case "1MONTH" -> today.plusMonths(1);
             default -> null;
         };
-    };
-
-};
+    }
+}
