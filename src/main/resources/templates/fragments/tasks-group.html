@@ -1,0 +1,49 @@
+<!-- Fragmento reusable para mostrar un grupo de tareas según su estado -->
+<div th:fragment="tasksGroup (groupStatus, newTask, user)">
+    <section class="tasks-group">
+        <!-- Título según el estado recibido -->
+        <h3 th:switch="${groupStatus}">
+            <span th:case="'PENDING'">Pendientes</span>
+            <span th:case="'INPROGRESS'">En progreso</span>
+            <span th:case="'DONE'">Completadas</span>
+            <span th:case="*">Tareas</span>
+        </h3>
+
+        <!-- Mensaje cuando la lista está vacía para el estado dado -->
+        <div th:if="${#lists.isEmpty(user.tasks.?[status.name() == #vars.groupStatus])}">
+            <span th:switch="${groupStatus}">
+                <span th:case="'PENDING'">No hay tareas pendientes.</span>
+                <span th:case="'INPROGRESS'">No hay tareas en progreso.</span>
+                <span th:case="'DONE'">No hay tareas completadas.</span>
+                <span th:case="*">No hay tareas.</span>
+            </span>
+        </div>
+
+        <!-- Formulario sólo para PENDING (crea nueva tarea) -->
+        <form  method="POST" class="new-task-form" th:object="${newTask}">
+            <label for="description">Nueva tarea:</label>
+            <input id="description" th:field="*{description}" type="text" placeholder="Describe la tarea..." />
+            <span class="validationError"
+                  th:if="${#fields.hasErrors('description')}"
+                  th:errors="*{description}">Desc error</span>
+
+            <!-- Estado fijo a PENDING -->
+            <input type="hidden" name="status" th:value="${groupStatus}" />
+
+            <button type="submit">Crear tarea</button>
+        </form>
+
+        <!-- Listado de tareas filtradas por el estado recibido -->
+        <div th:each="task : ${user.tasks.?[status.name() == #vars.groupStatus]}">
+            <div class="task-item" th:classappend="${groupStatus.toLowerCase()}">
+                <div class="task-desc" th:text="${task.description}">Descripción de la tarea...</div>
+                <div>
+                    <strong>Fecha límite:</strong>
+                    <span th:if="${task.deadline != null}" th:text="${#temporals.format(task.deadline, 'dd/MMMM/yyyy')}">No especificada</span>
+                    <span th:if="${task.deadline == null}">No especificada</span>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>

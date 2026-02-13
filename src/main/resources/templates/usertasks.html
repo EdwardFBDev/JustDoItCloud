@@ -41,71 +41,10 @@
         <!-- Tasks grouped by status -->
         <div class="tasks-grid">
 
-            <!-- PENDING -->
-            <section class="tasks-group">
-                <h3>Pendientes</h3>
-                <div th:if="${#lists.isEmpty(user.tasks.?[status.name() == 'PENDING'])}">
-                    No hay tareas pendientes.
-                </div>
-                <form  method="POST" class="new-task-form" th:object="${newTask}">
-                    <!-- Solo capturamos la descripción -->
-                    <label for="description">Nueva tarea:</label>
-                    <input th:field="*{description}" type="text" placeholder="Describe la tarea..."
-                    />
-                    <span class="validationError"
-                          th:if="${#fields.hasErrors('description')}"
-                          th:errors="*{description}">Desc error</span>
-
-                    <select th:field="*{deadline}">
-                        <option value="">Fecha límite:</option>
-                        <option value="1WEEK">1 semana</option>
-                        <option value="1MONTH">1 mes</option>
-                    </select>
-
-
-                    <!-- Estado fijo a PENDING -->
-                    <input type="hidden" name="status" value="PENDING" />
-
-                    <button type="submit">Crear tarea</button>
-                </form>
-                <div th:each="task : ${user.tasks.?[status.name() == 'PENDING']}">
-                    <div class="task-item pending">
-                        <div class="task-desc" th:text="${task.description}">Descripción de la tarea...</div>
-                        <div>
-                            <strong>Fecha límite:</strong>
-                            <span th:text="${task.deadline != null} ? ${#temporals.format(task.deadline, 'dd/MMMM/yyyy')} : 'No especificada'">
-                                No especificada
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- INPROGRESS -->
-            <section class="tasks-group">
-                <h3>En progreso</h3>
-                <div th:if="${#lists.isEmpty(user.tasks.?[status.name() == 'INPROGRESS'])}">
-                    No hay tareas en progreso.
-                </div>
-                <div th:each="task : ${user.tasks.?[status.name() == 'INPROGRESS']}">
-                    <div class="task-item inprogress">
-                        <div class="task-desc" th:text="${task.description}">Descripción de la tarea...</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- DONE -->
-            <section class="tasks-group">
-                <h3>Completadas</h3>
-                <div th:if="${#lists.isEmpty(user.tasks.?[status.name() == 'DONE'])}">
-                    No hay tareas completadas.
-                </div>
-                <div th:each="task : ${user.tasks.?[status.name() == 'DONE']}">
-                    <div class="task-item done">
-                        <div class="task-desc" th:text="${task.description}">Descripción de la tarea...</div>
-                    </div>
-                </div>
-            </section>
+            <!-- Usamos el fragmento para cada grupo -->
+            <div th:replace="fragments/tasks-group :: tasksGroup('PENDING', ${newTask}, ${user})"></div>
+            <div th:replace="fragments/tasks-group :: tasksGroup('INPROGRESS', ${newTask}, ${user})"></div>
+            <div th:replace="fragments/tasks-group :: tasksGroup('DONE', ${newTask}, ${user})"></div>
 
         </div>
 
