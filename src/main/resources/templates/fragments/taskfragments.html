@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="taskColumn(title, tasks, statusValue, cssStateClass)" class="tasks-group">
+
+    <h3 th:text="${title}">PENDING</h3>
+
+    <!-- Form para agregar tarea a esta columna -->
+    <form th:action="@{/user/tasks}" method="post" style="margin-bottom: 12px;">
+        <input type="text"
+               name="description"
+               placeholder="Nueva tarea..."
+               required
+               minlength="3"/>
+
+        <input type="hidden" name="status" th:value="${statusValue}" />
+
+        <button type="submit">Agregar</button>
+    </form>
+
+    <!-- Lista de tareas -->
+    <div th:each="t : ${tasks}"
+         class="task-item"
+         th:classappend="${cssStateClass}">
+
+        <div class="task-title" th:text="${t.description}">Descripción</div>
+
+        <div class="task-desc" th:text="${t.created}">created</div>
+
+        <div class="task-desc" th:if="${t.deadline != null}">
+            <span th:text="${t.deadline}">deadline</span>
+        </div>
+
+        <!-- ✅ BOTÓN AVANZAR (NO aparece si está DONE) -->
+        <form th:if="${t.status.name() != 'DONE'}"
+              th:action="@{/user/tasks/advance}"
+              method="post"
+              style="margin-top: 8px;">
+            <input type="hidden" name="taskId" th:value="${t.id}" />
+            <button type="submit">Avanzar</button>
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

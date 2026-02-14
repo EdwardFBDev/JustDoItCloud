@@ -5,37 +5,19 @@
     <title>JustDoIt!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
-
-
 </head>
 
 <body>
 
 <div class="container">
 
-    <!-- Left column -->
-    <aside class="sidebar">
-
-        <!-- Logo area -->
-        <div class="logo">
-            <a th:href="@{/}"><img th:src="@{/images/JustDoIt.png}" alt="JustDoIt Logo" width="200" height="200"></a>
-        </div>
-
-        <!-- Navigation area -->
-        <nav class="navigation">
-            <h3>Tareas</h3>
-            <ul>
-                <li>
-                    <a th:href="@{/user/tasks}">Tareas de usuario actual</a>
-                </li>
-            </ul>
-        </nav>
-
-    </aside>
+    <!-- Left column (reutilizado desde fragmento) -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
     <!-- Right column -->
     <main class="content">
         <h1>Bienvenido a JustDoIt!</h1>
+
         <p>
             El manejo adecuado de listas de tareas es una herramienta clave para mejorar la productividad personal y profesional.
             Al organizar las actividades pendientes de forma clara y estructurada, las personas pueden priorizar mejor su trabajo,
@@ -49,7 +31,8 @@
             ya que completar actividades genera una percepción tangible de avance. En entornos académicos y laborales,
             este hábito ayuda a planificar mejor el trabajo, cumplir plazos y adaptarse a cambios de manera ordenada.
             En conjunto, el uso sistemático de listas de tareas no solo incrementa la productividad,
-            sino que también reduce el estrés y mejora la calidad del trabajo real
+            sino que también reduce el estrés y mejora la calidad del trabajo real.
+        </p>
 
     </main>
 

@@ -4,51 +4,29 @@
     <meta charset="UTF-8">
     <title>JustDoIt! - Tareas de Usuario</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
+
 <div class="container">
 
-    <!-- Left column -->
-    <aside class="sidebar">
-        <div class="logo">
-            <a th:href="@{/}"><img th:src="@{/images/JustDoIt.png}" alt="JustDoIt Logo" width="200" height="200"></a>
-        </div>
+    <!-- Sidebar igual que Home -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
-        <nav class="navigation">
-            <h3>Tareas</h3>
-            <ul>
-                <li><a th:href="@{/user/tasks}">Tareas de usuario actual</a></li>
-            </ul>
-        </nav>
-    </aside>
-
-    <!-- Right column -->
+    <!-- Contenido (solo cambia esta parte) -->
     <main class="content">
-        <h1>Tareas de usuario</h1>
 
-        <!-- User info -->
-        <div class="user-card">
-            <div class="user-avatar" th:text="${user.name != null} ? ${user.name.substring(0,1)} : 'U'">U</div>
-            <div class="user-info">
-                <div><strong th:text="${user.name}">Nombre Usuario</strong> <span style="color:#666">(<span th:text="${user.userName}">username</span>)</span></div>
-                <div>Email: <span th:text="${user.email}">email@example.com</span></div>
-                <div>Tipo: <span th:text="${user.type}">REGULAR</span></div>
-            </div>
-        </div>
+        <p th:if="${errorMessage}" th:text="${errorMessage}" class="validationError"></p>
 
-        <!-- Tasks grouped by status -->
         <div class="tasks-grid">
-
-            <!-- Usamos el fragmento para cada grupo -->
-            <div th:replace="fragments/tasks-group :: tasksGroup('PENDING', ${newTask}, ${user})"></div>
-            <div th:replace="fragments/tasks-group :: tasksGroup('INPROGRESS', ${newTask}, ${user})"></div>
-            <div th:replace="fragments/tasks-group :: tasksGroup('DONE', ${newTask}, ${user})"></div>
-
+            <div th:replace="~{fragments/taskfragments :: taskColumn('PENDING', ${pendingTasks}, 'PENDING', 'pending')}"></div>
+            <div th:replace="~{fragments/taskfragments :: taskColumn('INPROGRESS', ${inprogressTasks}, 'INPROGRESS', 'inprogress')}"></div>
+            <div th:replace="~{fragments/taskfragments :: taskColumn('DONE', ${doneTasks}, 'DONE', 'done')}"></div>
         </div>
 
     </main>
+
 </div>
+
 </body>
 </html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<aside th:fragment="sidebar" class="sidebar">
+
+  <div class="logo">
+    <a th:href="@{/}">
+      <img th:src="@{/images/JustDoIt.png}" alt="JustDoIt Logo" width="200" height="200">
+    </a>
+  </div>
+
+  <nav class="navigation">
+    <h3>Tareas</h3>
+    <ul>
+      <li>
+        <a th:href="@{/user/tasks}">Tareas de usuario actual</a>
+      </li>
+    </ul>
+  </nav>
+
+</aside>
+
+</body>
+</html>
