@@ -10,10 +10,9 @@
 
 <div class="container">
 
-    <!-- Sidebar igual que Home -->
+
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
-    <!-- Contenido (solo cambia esta parte) -->
     <main class="content">
 
         <p th:if="${errorMessage}" th:text="${errorMessage}" class="validationError"></p>

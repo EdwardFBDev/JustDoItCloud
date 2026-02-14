@@ -32,7 +32,7 @@
             <span th:text="${t.deadline}">deadline</span>
         </div>
 
-        <!-- ✅ BOTÓN AVANZAR (NO aparece si está DONE) -->
+        <!-- BOTÓN AVANZAR (NO aparece si está DONE) -->
         <form th:if="${t.status.name() != 'DONE'}"
               th:action="@{/user/tasks/advance}"
               method="post"
